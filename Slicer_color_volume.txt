@@ -1,0 +1,11 @@
+colorVolume = getNode('ps') # RGB vector volume
+alphaVolume = getNode('alpha') # scalar volume created from RGB volume using Vector to scalar volume module
+
+append=vtk.vtkImageAppendComponents()
+append.AddInputConnection(colorVolume.GetImageDataConnection())
+append.AddInputConnection(alphaVolume.GetImageDataConnection())
+append.Update()
+colorVolume.SetAndObserveImageData(append.GetOutput())
+
+%%%%%
+getNode('VolumeProperty').GetVolumeProperty().SetIndependentComponents(0)
